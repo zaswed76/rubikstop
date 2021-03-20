@@ -1,0 +1,124 @@
+#:import utils kivy.utils
+#:include kv/settings_screen.kv
+
+<SButton>:
+    size_hint: 1, 1
+    canvas:
+        Color:
+            rgba: 0, 25/255, 33/255, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+<MImage@Image>:
+    canvas.before:
+        Color:
+            rgba: 0, 25/255, 33/255, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    size_hint: 0.45, 0.45
+    allow_stretch: True
+    keep_ratio: True
+
+<StopwatchLabel>:
+    font_size: 36
+
+
+<StartScreen>:
+    stopwatch: stopwatch
+    left_btn: left_btn
+#    right_btn: right_btn
+#    right_indicator: right_indicator
+    left_indicator: left_indicator
+#    canvas.before:
+#        Color:
+#            rgba: 0, 75/255, 90/255, 1
+#        Rectangle:
+#            size: self.size
+#            pos: self.pos
+
+    FloatLayout
+        SButton:
+            id: left_btn
+            on_parent:
+                self.name = "left"
+            pos_hint: {"left": 0}
+        MImage:
+            pos_hint: {"center_x": 0.5, "center_": 0.5}
+            source: 'resource/right_alt.png'
+        MImage:
+            id: left_indicator
+            pos_hint: {"center_x": 0.5, "y": 0.6}
+            size_hint: 0.10, 0.10
+            source: 'resource/sharred.png'
+
+#----------------------------------------------------------------
+        MDIconButton:
+            pos_hint: {"left": 0, "top": 1}
+            icon: "dots-vertical"
+            theme_text_color: "Custom"
+            text_color: 0, 75/255, 90/255, 1
+            on_press: app.screen_manager.current = "settings_screen"
+
+
+
+
+
+#        SButton:
+#            id: right_btn
+#            on_parent:
+#                self.name = "right"
+#            pos_hint: {"right": 1}
+#            on_press: root.press(self.name)
+#            on_release: root.release(self.name)
+#        MImage:
+#            pos_hint: {"right": 1, "y": 0.1}
+#            source: 'resource/right.png'
+#
+#        MImage:
+#            id: right_indicator
+#            pos_hint: {"center_x": 0.8, "y": 0.75}
+#            size_hint: 0.15, 0.15
+#            source: 'resource/sharred.png'
+
+#        StartButton:
+#            canvas.before:
+#                Color:
+#                    rgba: 0, 25/255, 33/255, 1
+#                Rectangle:
+#                    size: self.size
+#                    pos: self.pos
+#            md_bg_color: 0, 25/255, 33/255, 1
+#            line_color: 0, 75/255, 90/255, 1
+#            size_hint: 0.2, 0.08
+#            font_size: 16
+#            pos_hint: {"center_x": 0.5, "center_y": 0.7}
+#            text: "      reset      "
+
+
+
+    FloatLayout:
+        StopwatchLabel:
+            id: stopwatch
+
+            canvas.before:
+                Color:
+                    rgba: 0, 25/255, 33/255, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                Color:
+                    rgba: 0, 75/255, 90/255, 1
+                Line:
+                    width: 1
+                    rectangle: self.x, self.y, self.width, self.height
+            halign: "center"
+#            font_size: 30
+            theme_text_color: "Custom"
+            text_color: 0, 0.94, 1, 1
+            size_hint: 0.3, 0.13
+            pos_hint: {"y": 0.8, "center_x": 0.5}
+
+            text: '00:00.00'

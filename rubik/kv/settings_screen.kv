@@ -1,0 +1,124 @@
+<SettingsScreen>:
+    btn: btn
+    stat_scroll: stat_scroll
+    FloatLayout:
+
+        canvas:
+            Color:
+                rgba: 0, 25/255, 33/255, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        MDIconButton:
+            pos_hint: {"left": 0, "top": 1}
+            icon: "dots-vertical"
+            theme_text_color: "Custom"
+            text_color: 0, 75/255, 90/255, 1
+            on_press: app.screen_manager.current = "start_screen"
+
+
+        BoxLayout:
+            size_hint: None, 0.1
+            width: 250
+            pos_hint: {"top": 0.7, "right": 0.98}
+            BoxLayout:
+                size_hint: 1, None
+                height: 250
+                orientation: "vertical"
+                Button:
+                    size_hint: 1, None
+                    height: 50
+                    background_normal: ''
+                    background_down: ""
+                    background_color: 0, 25/255, 33/255, 1
+#                    size_hint: 1, 1
+                    color: 0, 150/255, 180/255, 1
+                    id: btn
+                    text: "создай профиль"
+                    on_release: root.open_list(self)
+                Label:
+                    size_hint: 1, None
+            BoxLayout:
+                size_hint: 1, None
+                height: 250
+                orientation: "vertical"
+                ProfileBtn:
+                    on_press: root.show_confirmation_dialog()
+                    Image:
+                        source: "resource/icons/account-plus-outline.png"
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                ProfileBtn:
+                    on_press: root.del_profile()
+                    Image:
+                        source: "resource/icons/account-off-outline.png"
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                ProfileBtn:
+                    on_press: root.show_confirmation_dialog()
+                    Image:
+                        source: "resource/icons/account-edit-outline.png"
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+
+    MDLabel:
+        pos_hint: {"x": .1, "top": .99}
+        text: "Время / Сборка"
+        theme_text_color: "Custom"
+        text_color: 0, 150/255, 180/255, 1
+        size_hint_y: None
+
+    ScrollView:
+        id: stat_scroll
+        canvas.before:
+            Color:
+                rgba: 0, 25/255, 33/255, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+            Color:
+                rgba: 0, 75/255, 90/255, 1
+            Line:
+                width: 1
+                rectangle: self.x, self.y, self.width, self.height
+        orientation: "vertical"
+        padding: "8dp"
+        size_hint: (0.3, None)
+        size: 500, root.height - 150
+        pos_hint: {"x": .08, "top": .8}
+
+<ProfileBtn@Button>:
+    size_hint: 1, None
+    height: 50
+    background_normal: ''
+    background_down: ""
+    background_color: 0, 25/255, 33/255, 1
+<StatLabel>:
+    theme_text_color: "Custom"
+    text_color: 0, 150/255, 180/255, 1
+    size_hint_y:None
+    height:40
+    padding_x: 10
+
+<StatBox>:
+    cols:1
+    spacing:8
+    size_hint_y:None
+
+<RectButton>:
+    size_hint: 1, None
+    height: 55
+    theme_text_color: "Custom"
+    text_color: 0, 120/255, 180/255, 1
+    line_color: 0, 75/255, 90/255, 1
+
+<Content>
+    content_mdtext_field: content_mdtext_field
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "120dp"
+
+    MDTextField:
+        id: content_mdtext_field
+        hint_text: "Имя"
