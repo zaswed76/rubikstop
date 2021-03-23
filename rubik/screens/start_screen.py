@@ -1,25 +1,62 @@
+import datetime
+import threading
+
 from kivy.clock import Clock
-from kivy.uix.button import Button
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivymd.uix.behaviors import TouchBehavior
-from kivymd.uix.button import MDRectangleFlatButton
+from kivymd.uix.button import MDRectangleFlatButton, MDTextButton, MDIconButton
 from kivymd.uix.label import MDLabel
+
+TOP1_FORMAT = "рекорд         {}"
+TOP2_FORMAT = "2-e место    {}"
+CURRENT_FORMAT = "текущее      {}"
+MEAN_FORMAT = "среднее       {}"
+NEW_TOP_FORMAT = "НОВЫЙ РЕКОРД !!!\nбыстрее на {} сек."
+STAT_COUNT_FORMAT = "СБОРОК         {}"
+
+
+def float_to_time_str(fl):
+    m, sm = str(datetime.timedelta(seconds=fl)).split(":")[1:]
+    s, ml = sm.split(".")
+    return ":".join([m, s, str(ml)[:2]])
+
+
+class PlaySoundBtn(MDIconButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.check = False
+
+    def on_press(self):
+        self.check = not self.check
+        if self.check:
+            self.icon = "pause-circle-outline"
+            MDApp.get_running_app().screen_manager.music_screen.audio.pause()
+        else:
+            self.icon = "play-outline"
+            MDApp.get_running_app().screen_manager.music_screen.audio.pause()
 
 
 class StartButton(MDRectangleFlatButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    # def on_press(self):
-    #     self.checked = not self.checked
+
+class ProfileLabel(MDLabel, TouchBehavior):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def on_double_tap(self, touch, *args):
+        # print(touch.pos)
+        if self.collide_point(*touch.pos):
+            MDApp.get_running_app().screen_manager.current = "settings_screen"
+            super().on_double_tap(touch, *args)
 
 
-class SButton(Button, TouchBehavior):
+class SButton(MDTextButton, TouchBehavior):
     left_down = False
     right_down = False
     session = False
-
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -41,10 +78,14 @@ class SButton(Button, TouchBehavior):
         self.on_touch_up_count = 0
         if self.collide_point(*touch.pos):
             if SButton.session:
-                self.start_screen.stop()
-                SButton.session = False
-                self.set_indicator("red")
-                self.app.screen_manager.settin_gsscreen.add_to_stat(self.start_screen.stopwatch.text)
+                if self.start_screen.sw_seconds > 0.5:
+                    self.start_screen.stop()
+                    SButton.session = False
+                    self.set_indicator("red")
+                    self.app.screen_manager.settin_gsscreen.add_to_stat(self.start_screen.stopwatch.text,
+                                                                        self.start_screen.sw_seconds)
+                else:
+                    self.app.screen_manager.start_screen.sw_seconds = 0
             super().on_touch_down(touch)
 
     def on_touch_up(self, touch):
@@ -61,7 +102,6 @@ class SButton(Button, TouchBehavior):
                 SButton.session = True
                 self.set_indicator("green")
                 super().on_long_touch(*args)
-
 
     def set_indicator(self, value):
         self.start_screen.left_indicator.source = self.indicators_values[value]
@@ -91,11 +131,21 @@ class StartScreen(Screen):
 
     def __init__(self, stored_data, **kwargs):
         super().__init__(**kwargs)
+        self.app = MDApp.get_running_app()
         self.stored_data = stored_data
         self.left_down = False
         self.right_down = False
         self.session_count = 0
         self.session = False
+        # self.webThread = threading.Thread(target=self.start)
+        # self.webThread.daemon = True
+
+
+
+    def clear_stopwatch_label(self):
+        self.reset()
+        # self.stopwatch.text = '00:00.00'
+
 
     def press(self, v):
         if v == "left":
@@ -109,53 +159,29 @@ class StartScreen(Screen):
             if self.left_down:
                 self.session_count += 1
 
-    def release(self, v):
 
+    def release(self, v):
         if v == "left":
             if not self.right_down and self.session_count % 2:
                 self.start()
             self.left_down = False
-        #     if not self.right_down and not self.session_count%2:
-        #         self.start()
-        # if self.right_btn.checked and self.left_btn.checked:
-        #     if not self.right_down and not self.session:
-        #         self.start()
-        #         self.session = True
-        #     else:
-        #         self.session = False
-        # self.left_down = False
-        # self.left_btn.checked = False
-        # self.right_btn.checked = False
+
         else:
             self.right_down = False
-        print(self.session_count)
-        #     # if self.left_btn.checked and self.right_btn.checked:
-        #     #     if not self.left_down and not self.session:
-        #     #         self.start()
-        #     #         self.session = True
-        #     #     else:
-        #     #         self.session = False
-        #     self.right_down = False
-        # print("release")
+        # print(self.session_count)
 
-        # print(v, self.left_btn)
-        # if v == "left":
-        #     self.left_down = False
-        # if v == "right" and self.left_down and not self.sw_started:
-        #     self.start()
-
-        # print("press", self.left_btn.checked, self.right_btn.checked)
-        # if not self.left_btn.checked and not self.right_btn.checked:
-        #     self.stop()
 
     def start(self):
         self.sw_started = True
 
+
     def stop(self):
         self.sw_started = False
 
+
     def on_start(self):
         Clock.schedule_interval(self.update_time, 0)
+
 
     def update_time(self, nap):
         if self.sw_started:
@@ -165,9 +191,39 @@ class StartScreen(Screen):
                 '%02d:%02d.%02d' %
                 (int(minutes), int(seconds), int(seconds * 100 % 100)))
 
+
     def reset(self):
         if self.sw_started:
             self.sw_started = False
         self.sw_seconds = 0
         self.text = '00:00.00'
 
+
+    def update_stat(self, start_flag):
+        stat = self.app.screen_manager.settin_gsscreen.current_statistics
+        if stat:
+
+            stat_dict = self.app.screen_manager.settin_gsscreen.detailed_stat.top_places(stat)
+            self.stat_top1_label.text = TOP1_FORMAT.format(stat_dict["top"][0])
+            self.stat_current_label.text = CURRENT_FORMAT.format(stat_dict["current"])
+            self.stat_count_label.text = STAT_COUNT_FORMAT.format(len(stat))
+            if len(stat) > 1:
+                self.stat_top2_label.text = TOP2_FORMAT.format(stat_dict["top"][1])
+            self.stat_mean_label.text = MEAN_FORMAT.format(float_to_time_str(stat_dict["mean"]))
+            new_rec = stat_dict["new_top"]
+            # print(new_rec, "3333")
+            if new_rec >= 0 and not start_flag:
+                self.stat_new_top.text = NEW_TOP_FORMAT.format(new_rec)
+            else:
+                self.stat_new_top.text = ""
+        else:
+            self.stat_count_label.text = STAT_COUNT_FORMAT.format(len(stat))
+            self.clear_stat()
+
+
+    def clear_stat(self):
+        self.stat_top1_label.text = TOP1_FORMAT.format("")
+        self.stat_current_label.text = CURRENT_FORMAT.format("")
+        self.stat_top2_label.text = TOP2_FORMAT.format("")
+        self.stat_mean_label.text = MEAN_FORMAT.format("")
+        self.stat_new_top.text = ""

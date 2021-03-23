@@ -10,37 +10,64 @@
                 size: self.size
                 pos: self.pos
         MDIconButton:
-            pos_hint: {"left": 0, "top": 1}
-            icon: "dots-vertical"
+            pos_hint: {"x": 0.04, "top": 0.98}
+            icon: "arrow-left-bold"
             theme_text_color: "Custom"
             text_color: 0, 75/255, 90/255, 1
             on_press: app.screen_manager.current = "start_screen"
 
+        BoxLayout:
+            orientation: "vertical"
+            canvas:
+                Color:
+                    rgba: 0, 20/255, 25/255, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            size_hint: 0.07, 1
+#            width: "50dp"
+            pos_hint: {"top": 1, "right": 1}
+            FloatLayout:
+                MDIconButton:
+                    pos_hint: {"center_x": 0.5, "center_y": 0.8}
+                    theme_text_color: "Custom"
+                    text_color: 0, 75/255, 90/255, 1
+                    icon: "music-box-outline"
+                    on_press: app.screen_manager.current = "music_screen"
+
+                MDIconButton:
+                    pos_hint: {"center_x": 0.5, "center_y": 0.9}
+                    theme_text_color: "Custom"
+                    text_color: 0, 75/255, 90/255, 1
+                    icon: "cog-outline"
+# пр    офили
 
         BoxLayout:
-            size_hint: None, 0.1
-            width: 250
-            pos_hint: {"top": 0.7, "right": 0.98}
+
+            size_hint: None, None
+            width: "270dp"
+            spacing: "5dp"
+            pos_hint: {"top": 0.7, "right": 0.92}
             BoxLayout:
                 size_hint: 1, None
-                height: 250
+                height: "250dp"
                 orientation: "vertical"
                 Button:
                     size_hint: 1, None
-                    height: 50
+                    height: "50dp"
                     background_normal: ''
                     background_down: ""
                     background_color: 0, 25/255, 33/255, 1
 #                    size_hint: 1, 1
                     color: 0, 150/255, 180/255, 1
                     id: btn
-                    text: "создай профиль"
+                    text: " создай\nпрофиль "
                     on_release: root.open_list(self)
                 Label:
                     size_hint: 1, None
             BoxLayout:
                 size_hint: 1, None
-                height: 250
+                height: "250dp"
                 orientation: "vertical"
                 ProfileBtn:
                     on_press: root.show_confirmation_dialog()
@@ -49,7 +76,7 @@
                         center_x: self.parent.center_x
                         center_y: self.parent.center_y
                 ProfileBtn:
-                    on_press: root.del_profile()
+                    on_press: root.show_delit_dialog()
                     Image:
                         source: "resource/icons/account-off-outline.png"
                         center_x: self.parent.center_x
@@ -60,7 +87,7 @@
                         source: "resource/icons/account-edit-outline.png"
                         center_x: self.parent.center_x
                         center_y: self.parent.center_y
-
+# окно статистики
     MDLabel:
         pos_hint: {"x": .1, "top": .99}
         text: "Время / Сборка"
@@ -83,31 +110,34 @@
                 rectangle: self.x, self.y, self.width, self.height
         orientation: "vertical"
         padding: "8dp"
-        size_hint: (0.3, None)
-        size: 500, root.height - 150
+        size_hint: (0.4, None)
+        size: "500dp", root.height - 170
         pos_hint: {"x": .08, "top": .8}
 
 <ProfileBtn@Button>:
     size_hint: 1, None
-    height: 50
+    height: "50dp"
     background_normal: ''
     background_down: ""
     background_color: 0, 25/255, 33/255, 1
+
 <StatLabel>:
+    font_style: "Body2"
     theme_text_color: "Custom"
     text_color: 0, 150/255, 180/255, 1
     size_hint_y:None
-    height:40
-    padding_x: 10
+    height:"50dp"
+    padding_x: "10dp"
+    padding_y: "10dp"
 
 <StatBox>:
     cols:1
-    spacing:8
+    spacing: "8dp"
     size_hint_y:None
 
 <RectButton>:
     size_hint: 1, None
-    height: 55
+    height: "55dp"
     theme_text_color: "Custom"
     text_color: 0, 120/255, 180/255, 1
     line_color: 0, 75/255, 90/255, 1
@@ -115,10 +145,12 @@
 <Content>
     content_mdtext_field: content_mdtext_field
     orientation: "vertical"
-    spacing: "12dp"
+    spacing: "4dp"
     size_hint_y: None
-    height: "120dp"
+    height: "90dp"
 
     MDTextField:
+
         id: content_mdtext_field
+        max_text_length: 14
         hint_text: "Имя"

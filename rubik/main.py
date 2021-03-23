@@ -1,15 +1,33 @@
-__version__ = "0.1.07"
 
+
+__version__ = "0.1.45"
 from kivy.clock import Clock
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.storage.jsonstore import JsonStore
-from kivy.uix.screenmanager import ScreenManager, FadeTransition, SwapTransition, FallOutTransition
+from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivymd.app import MDApp
+
 
 from screens.settings_screen import SettingsScreen
 from screens.start_screen import StartScreen
-from kivy.core.window import Window
-Window.clearcolor = 0, 25/255, 33/255, 1
+from screens.music_screen import MusicScreen
+from kivy.utils import platform
+Window.allow_screensaver = False
+
+if platform == 'android':
+    try:
+        from android.permissions import request_permissions, Permission
+        from core.android_audioplayer import Sound
+
+        request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+
+    except:
+        Sound = None
+else:
+    from core.audioplayer import Sound
+    Window.size = (700, 400)
+
 Builder.load_file("kv/start_screen.kv")
 stored_data = JsonStore('data.json')
 
@@ -18,8 +36,16 @@ class MScreenManager(ScreenManager):
     def __init__(self, stored_data, **kwargs):
         super().__init__(**kwargs)
         self.stored_data = stored_data
+
+
         self._init_start_screen()
         self._init_settings_screen()
+        self._init_music_screen()
+
+    def _init_music_screen(self):
+        self.audio = Sound()
+        self.music_screen = MusicScreen(self.stored_data, self.audio, name="music_screen")
+        self.add_widget(self.music_screen)
 
     def _init_start_screen(self):
         self.start_screen = StartScreen(self.stored_data, name="start_screen")
@@ -39,9 +65,19 @@ class RubikApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def build(self):
+
         self.screen_manager = MScreenManager(stored_data, transition=FadeTransition())
-        # self.screen_manager = MScreenManager(stored_data, transition=FallOutTransition())
+
+    def build(self):
+
+        profile = self.screen_manager.settin_gsscreen.current_profile
+        if profile:
+            self.screen_manager.start_screen.profile_label.text = profile
+        else:
+            self.screen_manager.start_screen.profile_label.text = "создай\nпрофиль"
+        self.screen_manager.current = "start_screen"
+        self.screen_manager.start_screen.update_stat(True)
+
         return self.screen_manager
 
     def on_start(self):

@@ -1,23 +1,32 @@
 #:import utils kivy.utils
 #:include kv/settings_screen.kv
 
+
+<PlaySoundBtn>:
+#    icon: "resource/icons/play-outline.png"
+
 <SButton>:
     size_hint: 1, 1
-    canvas:
-        Color:
-            rgba: 0, 25/255, 33/255, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
+#    canvas:
+#        Color:
+#            rgba: 0, 25/255, 33/255, 0
+#        Rectangle:
+#            size: self.size
+#            pos: self.pos
 
+#        Color:
+#            rgba: 1, 0, 0, 1
+#        Line:
+#            width: 10
+#            rectangle: self.x, self.y, self.width, self
 
 <MImage@Image>:
-    canvas.before:
-        Color:
-            rgba: 0, 25/255, 33/255, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
+#    canvas.before:
+#        Color:
+#            rgba: 0, 25/255, 33/255, 1
+#        Rectangle:
+#            size: self.size
+#            pos: self.pos
     size_hint: 0.45, 0.45
     allow_stretch: True
     keep_ratio: True
@@ -25,21 +34,59 @@
 <StopwatchLabel>:
     font_size: 36
 
+<ProfileLabel>:
+#    size_hint: None, None
+
+
+<LabelStatStart@MDLabel>
+    font_style: "Button"
+    font_name: "fonts/Roboto-Medium.ttf"
+#    font_name: 'fonts/Roboto-Light.ttf'
+#    canvas.before:
+#        Color:
+#            rgba: 0, 0.5, 0.5, 0.4
+#        Rectangle:
+#            pos: self.pos
+#            size: self.size
 
 <StartScreen>:
     stopwatch: stopwatch
     left_btn: left_btn
+    profile_label: profile_label
+    stat_top1_label: stat_top1_label
+    stat_current_label: stat_current_label
+    stat_top2_label: stat_top2_label
+    stat_mean_label: stat_mean_label
+    stat_new_top: stat_new_top
+    stat_count_label: stat_count_label
+
 #    right_btn: right_btn
 #    right_indicator: right_indicator
     left_indicator: left_indicator
 #    canvas.before:
-#        Color:
-#            rgba: 0, 75/255, 90/255, 1
 #        Rectangle:
-#            size: self.size
 #            pos: self.pos
+#            size: self.size
+#            Image:
+#                source: "resource/space.jpg"
 
     FloatLayout
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'resource/space.jpg'
+        Image:
+            source: "resource/cube.png"
+
+
+
+#        Video:
+#            size_hint: None, None
+#            height: root.height + 50
+#            width: root.width
+#            source: "resource/111.mp4"
+#            play: True
         SButton:
             id: left_btn
             on_parent:
@@ -56,64 +103,93 @@
 
 #----------------------------------------------------------------
         MDIconButton:
-            pos_hint: {"left": 0, "top": 1}
+            pos_hint: {"x": 0.04, "top": 0.98}
             icon: "dots-vertical"
             theme_text_color: "Custom"
             text_color: 0, 75/255, 90/255, 1
             on_press: app.screen_manager.current = "settings_screen"
 
 
+        PlaySoundBtn:
+            theme_text_color: "Custom"
+            text_color: 0, 75/255, 90/255, 1
+            icon: "play-outline"
+            pos_hint: {"right": 0.96, "top": 0.98}
+
+        LabelStatStart:
+
+            id: stat_new_top
+            font_style: "Subtitle1"
+            pos_hint: {"x": .70, "center_y": .75}
+            theme_text_color: "Custom"
+            text_color: 55/255, 220/255, 220/255, 1
+            text: ""
+
+        LabelStatStart:
+
+            id: stat_top1_label
+
+
+            pos_hint: {"x": .70, "center_y": .65}
+            theme_text_color: "Custom"
+            text_color: 1, 138/255, 16/255, 1
+            text: "рекорд         "
+
+        LabelStatStart:
+            id: stat_current_label
+
+            pos_hint: {"x": .70, "center_y": .57}
+            theme_text_color: "Custom"
+            text_color: 0, 150/255, 180/255, 1
+            text: "текущее      "
+
+        LabelStatStart:
+            id: stat_top2_label
+
+            pos_hint: {"x": .70, "center_y": .49}
+            theme_text_color: "Custom"
+            text_color: 12/255, 144/255, 18/255, 1
+            text: "2-e место    "
 
 
 
-#        SButton:
-#            id: right_btn
-#            on_parent:
-#                self.name = "right"
-#            pos_hint: {"right": 1}
-#            on_press: root.press(self.name)
-#            on_release: root.release(self.name)
-#        MImage:
-#            pos_hint: {"right": 1, "y": 0.1}
-#            source: 'resource/right.png'
-#
-#        MImage:
-#            id: right_indicator
-#            pos_hint: {"center_x": 0.8, "y": 0.75}
-#            size_hint: 0.15, 0.15
-#            source: 'resource/sharred.png'
+        LabelStatStart:
+            id: stat_mean_label
+            pos_hint: {"x": .70, "center_y": .41}
+            theme_text_color: "Custom"
+            text_color: 12/255, 144/255, 18/255, 1
+            text: "среднее       "
 
-#        StartButton:
-#            canvas.before:
-#                Color:
-#                    rgba: 0, 25/255, 33/255, 1
-#                Rectangle:
-#                    size: self.size
-#                    pos: self.pos
-#            md_bg_color: 0, 25/255, 33/255, 1
-#            line_color: 0, 75/255, 90/255, 1
-#            size_hint: 0.2, 0.08
-#            font_size: 16
-#            pos_hint: {"center_x": 0.5, "center_y": 0.7}
-#            text: "      reset      "
+        LabelStatStart:
+            id: stat_count_label
+            pos_hint: {"x": .70, "center_y": .33}
+            theme_text_color: "Custom"
+            text_color: 12/255, 144/255, 18/255, 1
+            text: "СБОРОК         {}"
 
+        ProfileLabel:
+            id: profile_label
+            pos_hint: {"x": .70, "center_y": .1}
+            theme_text_color: "Custom"
+            text_color: 0, 150/255, 180/255, 1
+            text: "создай\nпрофиль"
 
 
     FloatLayout:
         StopwatchLabel:
             id: stopwatch
 
-            canvas.before:
-                Color:
-                    rgba: 0, 25/255, 33/255, 1
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
-                Color:
-                    rgba: 0, 75/255, 90/255, 1
-                Line:
-                    width: 1
-                    rectangle: self.x, self.y, self.width, self.height
+#            canvas.before:
+#                Color:
+#                    rgba: 0, 25/255, 33/255, 1
+#                Rectangle:
+#                    size: self.size
+#                    pos: self.pos
+#                Color:
+#                    rgba: 0, 75/255, 90/255, 1
+#                Line:
+#                    width: 1
+#                    rectangle: self.x, self.y, self.width, self.height
             halign: "center"
 #            font_size: 30
             theme_text_color: "Custom"
@@ -122,3 +198,4 @@
             pos_hint: {"y": 0.8, "center_x": 0.5}
 
             text: '00:00.00'
+
