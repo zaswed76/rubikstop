@@ -1,6 +1,6 @@
 
 
-__version__ = "0.1.45"
+__version__ = "0.1.62"
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
@@ -58,6 +58,15 @@ class MScreenManager(ScreenManager):
         # self.settin_gsscreen.init_profiles()
 
         self.add_widget(self.settin_gsscreen)
+
+    def set_screen(self, screen):
+        print("@@@@@")
+        self.current = screen
+        self.music_screen.play_list_view.selectedItem = 0
+        try:
+            self.music_screen.play_list_view.select(0)
+        except IndexError:
+            pass
 
 
 class RubikApp(MDApp):

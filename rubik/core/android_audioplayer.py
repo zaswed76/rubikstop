@@ -7,20 +7,24 @@ class Sound:
     def __init__(self):
         # self.sound = SoundLoader.load("resource/music/fifa-19-ost-jacob-banks.ogg")
         self.sound = MediaPlayer()
-        self.sound.setDataSource("resource/music/aaa.mp3")
-        self.sound.prepare()
+        # self.sound.setDataSource("resource/music/aaa.mp3")
+        # self.sound.prepare()
         self.current_pos = 0
 
     def load(self, source):
         self.sound.setDataSource(source)
+        self.sound.prepare()
     #
-    def play(self):
+    def play(self, name):
+        self.sound.reset()
+        self.load(name)
+        print(name, "222222222222222222222222222222")
         if self.sound:
             self.sound.start()
     #
     def load_play(self, source):
         self.load(source)
-        self.play()
+        # self.play()
     #
     def stop(self):
         if self.sound:
