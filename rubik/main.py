@@ -1,6 +1,6 @@
 
 
-__version__ = "0.1.62"
+__version__ = "0.1.67"
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
