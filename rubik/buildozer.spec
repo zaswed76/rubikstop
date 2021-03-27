@@ -44,10 +44,10 @@ requirements = python3,kivy==2.0.0,https://github.com/kivymd/KivyMD/archive/mast
 #requirements.source.kivymd = https://github.com/kivymd/KivyMD/archive/master.zip
 
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/presplash.png
+presplash.filename = %(source.dir)s/resource/icons/rubic.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s/data/icon.png
+icon.filename = %(source.dir)s/resource/icons/rubic.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = landscape
