@@ -65,6 +65,7 @@ class SettingsScreen(Screen):
         self.dropdown.bind(on_select=lambda instance, x: setattr(self.btn, 'text', x))
         self.stat_box = StatBox()
         self.app = MDApp.get_running_app()
+        self.version_label.text = self.app.get_version()
 
     def get_current_statistic(self):
         return self.stored_data.get("statistics")[self.current_profile]
@@ -72,6 +73,7 @@ class SettingsScreen(Screen):
     def del_stat(self, stat):
 
         for n in self.current_statistics:
+            print(n, "!!!!")
             if stat in n:
                 self.current_statistics.remove(n)
         self.app.screen_manager.start_screen.reset()

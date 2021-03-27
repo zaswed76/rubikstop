@@ -25,16 +25,34 @@ def float_to_time_str(fl):
 class PlaySoundBtn(MDIconButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.check = False
+        self._check = False
 
-    def on_press(self):
+    @property
+    def check(self):
+        return self._check
+
+    @check.setter
+    def check(self, v):
+        self._check = v
+        if self._check:
+
+            self.icon = "pause-circle-outline"
+        else:
+            self.icon = "play-outline"
+
+    def on_press(self, *args):
         self.check = not self.check
         if self.check:
             self.icon = "pause-circle-outline"
-            MDApp.get_running_app().screen_manager.music_screen.audio.pause()
+
+            MDApp.get_running_app().screen_manager.music_screen.pause()
+            if not args:
+                MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.on_press("auto")
         else:
             self.icon = "play-outline"
-            MDApp.get_running_app().screen_manager.music_screen.audio.pause()
+            MDApp.get_running_app().screen_manager.music_screen.pause()
+            if not args:
+                MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.on_press("auto")
 
 
 class StartButton(MDRectangleFlatButton):
@@ -227,3 +245,4 @@ class StartScreen(Screen):
         self.stat_top2_label.text = TOP2_FORMAT.format("")
         self.stat_mean_label.text = MEAN_FORMAT.format("")
         self.stat_new_top.text = ""
+        self.stat_count_label.text = STAT_COUNT_FORMAT.format("0")

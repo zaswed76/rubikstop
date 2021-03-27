@@ -16,7 +16,7 @@
             rgba: 0.6, 0.6, 0.6, 0.5
         Line:
             width: 0.4
-            rectangle: self.x, self.y, self.width, self.height
+            rectangle: self.x-4, self.y, self.width + 8, self.height
 
     text_size: self.size
     halign: 'left'
@@ -41,69 +41,20 @@
         orientation: 'vertical'
         multiselect: False
 
-<PlayListTool@BoxLayout>:
-    canvas:
-        Color:
-            rgba: 0, 50/255, 67/255, 1
-        Rectangle:
-            size: self.size
-            pos: self.pos
-
-    FloatLayout:
-#        pos_hint: {"x": 0, "top": 1}
-        canvas:
-            Color:
-                rgba: 0, 25/255, 33/255, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-            Color:
-                rgba: 0.6, 0.6, 0.6, 0.5
-            Line:
-                width: 0.4
-                rectangle: self.x-2, self.y-2, self.width +4, self.height
-        MDIconButton:
-            pos_hint: {"center_x": 0.1, "center_y": 0.5}
-            theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
-            icon: "play"
-            on_press: app.screen_manager.music_screen.play("")
+<MDIconButtonChecked>:
+    theme_text_color: "Custom"
 
 
-        MDIconButton:
-            icon: "volume-high"
-            pos_hint: {"x": 0.15, "center_y": 0.5}
-            theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
 
-        MDSlider:
-            min: 0
-            max: 100
-            value: 40
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            size_hint: 0.6, 1
-            background_color: 1, 0, 0, 1
-            id: slider
-            hint: False
-            step: 1
-            orientation: 'horizontal'
-            color: 0, 75/255, 90/255, 1
 
-        MDIconButton:
-            icon: "volume-mute"
-            pos_hint: {"x": 0.8, "center_y": 0.5}
-            theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
-
-        MDIconButton:
-            pos_hint: {"center_x": 0.9, "center_y": 0.5}
-            theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
-            icon: "folder-music"
-            on_press: app.screen_manager.music_screen.choose_folder_music()
 
 <MusicScreen>:
     play_list_view: play_list_view
+    play_tool_layout: play_tool_layout
+    volume_mute: volume_mute
+    volume_high: volume_high
+    play_pause_btn: play_pause_btn
+    folder_music_btn: folder_music_btn
     FloatLayout:
         canvas:
             Color:
@@ -128,11 +79,11 @@
                 Rectangle:
                     size: self.size
                     pos: self.pos
-                Color:
-                    rgba: 0.6, 0.6, 0.6, 0.5
-                Line:
-                    width: 0.4
-                    rectangle: self.x, self.y, self.width, self.height
+#                Color:
+#                    rgba: 0.6, 0.6, 0.6, 0.5
+#                Line:
+#                    width: 0.4
+#                    rectangle: self.x, self.y, self.width, self.height
 
             RV:
                 id: play_list_view
@@ -143,6 +94,77 @@
 #                        size: self.size
 #                        pos: self.pos
 
-        PlayListTool:
+        BoxLayout:
             size_hint: 1, 0.1
             pos_hint: {"bottom": 0, "left": 0}
+            canvas:
+                Color:
+                    rgba: 0, 50/255, 67/255, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            FloatLayout:
+                id: play_tool_layout
+                canvas:
+                    Color:
+                        rgba: 0, 25/255, 33/255, 1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                    Color:
+                        rgba: 0.6, 0.6, 0.6, 0.5
+                    Line:
+                        width: 0.4
+                        rectangle: self.x-2, self.y-2, self.width +4, self.height
+
+                MDIconButtonChecked:
+                    id: play_pause_btn
+                    pos_hint: {"center_x": 0.1, "center_y": 0.5}
+                    icon: "play"
+                    text_color: 0, 75/255, 90/255, 1
+                    on_parent:
+                        self.set_change_property_list(prop="icon", checked="pause-circle-outline", unchecked="play")
+#                        self.set_change_property_list("color", (1, 0, 0, 1), (0, 1, 0, 1))
+                    on_press: app.screen_manager.music_screen.pause()
+
+
+                MDIconButtonChecked:
+                    id: volume_mute
+                    icon: "volume-mute"
+                    pos_hint: {"x": 0.15, "center_y": 0.5}
+                    text_color: 0, 40/255, 50/255, 1
+                    on_press: app.screen_manager.music_screen.set_value_slider(0)
+                    on_parent:
+
+                        self.set_change_property_list("color", (0, 75/255, 90/255, 1), (0, 40/255, 50/255, 1))
+
+#                MDSlider:
+#                    min: 0
+#                    max: 100
+#                    value: 40
+#                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+#                    size_hint: 0.6, 1
+#                    background_color: 1, 0, 0, 1
+#                    id: slider
+#                    hint: False
+#                    step: 1
+#                    orientation: 'horizontal'
+#                    color: 0, 75/255, 90/255, 1
+
+                MDIconButtonChecked:
+                    id: volume_high
+                    icon: "volume-high"
+                    pos_hint: {"x": 0.8, "center_y": 0.5}
+                    text_color: 0, 75/255, 90/255, 1
+                    on_parent:
+                        self.set_change_property_list("color", (0, 75/255, 90/255, 1), (0, 40/255, 50/255, 1))
+                    on_press: app.screen_manager.music_screen.set_value_slider(1)
+
+
+                MDIconButtonChecked:
+                    id: folder_music_btn
+                    pos_hint: {"center_x": 0.9, "center_y": 0.5}
+                    icon: "folder-music"
+                    text_color: 0, 75/255, 90/255, 1
+                    on_press: app.screen_manager.music_screen.choose_folder_music()

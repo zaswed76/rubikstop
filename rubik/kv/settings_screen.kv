@@ -1,6 +1,7 @@
 <SettingsScreen>:
     btn: btn
     stat_scroll: stat_scroll
+    version_label: version_label
     FloatLayout:
 
         canvas:
@@ -9,6 +10,21 @@
             Rectangle:
                 size: self.size
                 pos: self.pos
+        MDLabel:
+            text: "aaaaaaa"
+            id: version_label
+            size_hint: 0.1, None
+            height: 20
+            pos_hint: {"x": 0.04, "top": 0.06}
+            theme_text_color: "Custom"
+            text_color: 0, 75/255, 90/255, 1
+
+#        MDIconButton:
+#            pos_hint: {"x": 0.04, "top": 0.1}
+#            icon: "arrow-left-bold"
+#            theme_text_color: "Custom"
+#            text_color: 0, 75/255, 90/255, 1
+
         MDIconButton:
             pos_hint: {"x": 0.04, "top": 0.98}
             icon: "arrow-left-bold"

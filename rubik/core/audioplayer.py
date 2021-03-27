@@ -9,10 +9,18 @@ class MSound(Sound):
         print(name)
 
 class Sound:
-    def __init__(self):
-        self.sound = SoundLoader.load("resource/music/aaa.mp3")
+    def __init__(self, start_track=None):
+        if start_track:
+            self.sound = SoundLoader.load(start_track)
+        else:
+            self.sound = None
 
         self.current_pos = 0
+
+    @property
+    def source(self):
+        if self.sound:
+            return self.sound.source
 
     def load(self, source):
         self.sound = SoundLoader.load(source)
@@ -22,8 +30,11 @@ class Sound:
             self.stop()
             if name is not None:
                 self.load(name)
-
-            self.sound.play()
+            try:
+                self.sound.play()
+                return True
+            except:
+                return False
 
     def load_play(self, source):
         self.sound = SoundLoader.load(source)
@@ -40,13 +51,27 @@ class Sound:
                 self.current_pos = self.sound.get_pos()
                 # print(self.current_pos)
                 self.sound.stop()
+                return True
             else:
                 # print(self.current_pos, "dddd")
                 self.sound.play()
                 self.sound.seek (self.current_pos)
+                return False
 
     def unload(self):
-        self.sound.unload()
+        if self.sound:
+            self.sound.unload()
+
+    def getDuration(self):
+        return self.sound.get_pos()
+
+    def length(self):
+        return self.sound.length
+
+    def set_volume(self, volume):
+        if self.sound:
+            self.sound.volume = volume
+
 
     def __repr__(self):
         return "SoundLoader Player"

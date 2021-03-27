@@ -16,22 +16,24 @@ class SoundCompletionCallback(PythonJavaClass):
         self.callback(mp)
 
 class Sound:
-    def __init__(self):
+    def __init__(self, start_track=None):
         self.sound = MediaPlayer()
         self.current_pos = 0
-        self._complete_callback = SoundCompletionCallback(self._on_completion)
+        self._complete_callback = SoundCompletionCallback(self.on_completion)
         self.sound.setOnCompletionListener(self._complete_callback)
+        self.parent = None
 
-    def _on_completion(self, *mp):
-        print("stop", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    def on_completion(self, *mp):
+        self.parent.play(self.parent.get_next_source())
 
     def load(self, source):
         self.sound.setDataSource(source)
         self.sound.prepare()
     #
-    def play(self, name):
+    def play(self, name=None):
         self.sound.reset()
-        self.load(name)
+        if name is not None:
+            self.load(name)
         if self.sound:
             self.sound.start()
     #
@@ -49,5 +51,11 @@ class Sound:
                 self.sound.pause()
             else:
                 self.play()
+
+    def set_volume(self, volume):
+        self.sound.setVolume(volume)
+
+    def unload(self):
+        self.sound.reset()
 
 
