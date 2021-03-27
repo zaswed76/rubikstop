@@ -2,6 +2,7 @@
 #:include kv/settings_screen.kv
 #:include kv/music.kv
 #:include kv/playlist.kv
+#:import stopTouchApp kivy.base.stopTouchApp
 
 
 <PlaySoundBtn>:
@@ -37,7 +38,8 @@
     font_size: 36
 
 <ProfileLabel>:
-#    size_hint: None, None
+    size_hint: 0.1, None
+    height: 25
 
 
 <LabelStatStart@MDLabel>
@@ -121,6 +123,14 @@
             text_color: 0, 75/255, 90/255, 1
             icon: "play-outline"
             pos_hint: {"right": 0.96, "top": 0.98}
+
+
+        MDIconButtonExit:
+            theme_text_color: "Custom"
+            text_color: 0, 75/255, 90/255, 1
+            icon: "location-exit"
+            pos_hint: {"right": 0.96, "bottom": 0.02}
+#            on_press: stopTouchApp()
 
         LabelStatStart:
 

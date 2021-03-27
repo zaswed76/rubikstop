@@ -1,6 +1,7 @@
 import datetime
 import threading
 
+from kivy.base import stopTouchApp
 from kivy.clock import Clock
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
@@ -20,6 +21,17 @@ def float_to_time_str(fl):
     m, sm = str(datetime.timedelta(seconds=fl)).split(":")[1:]
     s, ml = sm.split(".")
     return ":".join([m, s, str(ml)[:2]])
+
+
+
+
+class MDIconButtonExit(MDIconButton, TouchBehavior):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def on_double_tap(self, touch, *args):
+        if self.collide_point(*touch.pos):
+            stopTouchApp()
 
 
 class PlaySoundBtn(MDIconButton):
@@ -43,7 +55,7 @@ class PlaySoundBtn(MDIconButton):
     def on_press(self, *args):
         self.check = not self.check
         if self.check:
-            self.icon = "pause-circle-outline"
+            self.icon = "pause"
 
             MDApp.get_running_app().screen_manager.music_screen.pause()
             if not args:

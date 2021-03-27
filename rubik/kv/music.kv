@@ -124,9 +124,9 @@
                     icon: "play"
                     text_color: 0, 75/255, 90/255, 1
                     on_parent:
-                        self.set_change_property_list(prop="icon", checked="pause-circle-outline", unchecked="play")
+                        self.set_change_property_list(prop="icon", checked="pause", unchecked="play")
 #                        self.set_change_property_list("color", (1, 0, 0, 1), (0, 1, 0, 1))
-                    on_press: app.screen_manager.music_screen.pause()
+#                    on_press: app.screen_manager.music_screen.pause()
 
 
                 MDIconButtonChecked:
@@ -162,9 +162,10 @@
                     on_press: app.screen_manager.music_screen.set_value_slider(1)
 
 
-                MDIconButtonChecked:
+                MDIconButton:
                     id: folder_music_btn
                     pos_hint: {"center_x": 0.9, "center_y": 0.5}
+                    theme_text_color: "Custom"
                     icon: "folder-music"
                     text_color: 0, 75/255, 90/255, 1
                     on_press: app.screen_manager.music_screen.choose_folder_music()

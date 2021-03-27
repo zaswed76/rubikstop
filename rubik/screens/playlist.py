@@ -35,8 +35,9 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
         if self.collide_point(*touch.pos) and self.selectable:
             MDApp.get_running_app().screen_manager.music_screen.play(
                 MDApp.get_running_app().screen_manager.music_screen.play_list_view.data[self.index]["text"])
-            MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.on_press("auto")
-            # MDApp.get_running_app().screen_manager.start_screen.play_sound_btn.on_press("auto")
+            # MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.on_press("auto")
+            MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.checked = True
+            MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.change_properties()
             return self.parent.select_with_touch(self.index, touch)
 
     def apply_selection(self, rv, index, is_selected):

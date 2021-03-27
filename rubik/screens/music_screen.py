@@ -48,16 +48,19 @@ class MDIconButtonChecked(MDIconButton):
     def change_color(self, checked, unchecked):
         self.text_color = checked if self.checked else unchecked
 
-    def on_press(self, *args):
-        self.checked = not self.checked
+    def change_properties(self):
         for opt in self.change_property_list:
             self.options[opt[0]](opt[1], opt[2])
-        print(args)
+
+    def on_press(self, *args):
+        self.checked = not self.checked
+        self.change_properties()
         if not args:
             if self._checked:
 
                 MDApp.get_running_app().screen_manager.start_screen.play_sound_btn.on_press("auto")
             else:
+
                 MDApp.get_running_app().screen_manager.start_screen.play_sound_btn.on_press("auto")
 
 class MusicScreen(Screen):
@@ -90,7 +93,7 @@ class MusicScreen(Screen):
         # Clock.schedule_interval(self._on_position, 0.0)
 
     def choose_folder_music(self):
-        print(App.get_running_app().user_data_dir)
+        # print(App.get_running_app().user_data_dir)
         if platform == "android":
             p = '/sdcard'
         else:

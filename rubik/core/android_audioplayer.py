@@ -27,6 +27,7 @@ class Sound:
         self.parent.play(self.parent.get_next_source())
 
     def load(self, source):
+        self.sound.reset()
         self.sound.setDataSource(source)
         self.sound.prepare()
     #
