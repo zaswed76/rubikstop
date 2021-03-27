@@ -45,12 +45,14 @@ class PlaySoundBtn(MDIconButton):
 
     @check.setter
     def check(self, v):
+
         self._check = v
+        print(self._check, "7777777")
         if self._check:
 
-            self.icon = "pause-circle-outline"
+            self.icon = "pause"
         else:
-            self.icon = "play-outline"
+            self.icon = "play"
 
     def on_press(self, *args):
         self.check = not self.check

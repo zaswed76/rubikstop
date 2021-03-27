@@ -1,6 +1,6 @@
 import os
 
-__version__ = "0.1.84"
+__version__ = "0.1.85"
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.lang import Builder
@@ -69,7 +69,7 @@ class MScreenManager(ScreenManager):
         self.add_widget(self.settin_gsscreen)
 
     def set_screen(self, screen):
-        print("@@@@@")
+
         self.current = screen
         self.music_screen.play_list_view.selectedItem = 0
         try:

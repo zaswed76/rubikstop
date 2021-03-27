@@ -63,6 +63,17 @@ class MDIconButtonChecked(MDIconButton):
 
                 MDApp.get_running_app().screen_manager.start_screen.play_sound_btn.on_press("auto")
 
+
+class MDIconButtonCheckedVolume(MDIconButtonChecked):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def on_press(self, *args):
+        self.checked = not self.checked
+        self.change_properties()
+
+
 class MusicScreen(Screen):
     def __init__(self, stored_data, audio, play_list, **kwargs):
         super().__init__(**kwargs)
@@ -111,12 +122,19 @@ class MusicScreen(Screen):
                         self.play_list.append(mfile)
         if self.play_list:
             if self.audio:
-                # self.audio.unload()
+                MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.checked = False
+                MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.change_properties()
+                MDApp.get_running_app().screen_manager.start_screen.play_sound_btn.check = False
+                # MDApp.get_running_app().screen_manager.start_screen.play_sound_btn.icon = "play"
                 self.audio.stop()
                 self.audio.load(self.play_list[0])
 
         else:
             if self.audio:
+                MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.checked = False
+                MDApp.get_running_app().screen_manager.music_screen.play_pause_btn.change_properties()
+                MDApp.get_running_app().screen_manager.start_screen.play_sound_btn.check = True
+                # MDApp.get_running_app().screen_manager.start_screen.play_sound_btn.icon = "play"
                 self.audio.unload()
                 self.audio.stop()
 
@@ -131,6 +149,7 @@ class MusicScreen(Screen):
 
     def get_next_source(self):
         self.current_index += 1
+        self.play_list_view.select(self.current_index)
         return self.play_list[self.current_index]
 
     def not_choose_music(self, *args):

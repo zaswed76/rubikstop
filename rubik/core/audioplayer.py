@@ -48,7 +48,7 @@ class Sound:
     def pause(self):
 
         if self.sound:
-            print(self.sound, "self.sound")
+
             if self.sound.state == "play":
                 self.current_pos = self.sound.get_pos()
                 # print(self.current_pos)
