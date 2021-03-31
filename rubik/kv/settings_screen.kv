@@ -17,7 +17,7 @@
             height: 20
             pos_hint: {"x": 0.04, "top": 0.06}
             theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
+            text_color: btn_color
 
 #        MDIconButton:
 #            pos_hint: {"x": 0.04, "top": 0.1}
@@ -29,7 +29,7 @@
             pos_hint: {"x": 0.04, "top": 0.98}
             icon: "arrow-left-bold"
             theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
+            text_color: btn_color
             on_press: app.screen_manager.current = "start_screen"
 
         BoxLayout:
@@ -47,14 +47,14 @@
                 MDIconButton:
                     pos_hint: {"center_x": 0.5, "center_y": 0.8}
                     theme_text_color: "Custom"
-                    text_color: 0, 75/255, 90/255, 1
+                    text_color: btn_color
                     icon: "music-box-outline"
                     on_press: app.screen_manager.set_screen("music_screen")
 
                 MDIconButton:
                     pos_hint: {"center_x": 0.5, "center_y": 0.9}
                     theme_text_color: "Custom"
-                    text_color: 0, 75/255, 90/255, 1
+                    text_color: btn_color
                     icon: "cog-outline"
 # пр    офили
 
@@ -120,7 +120,7 @@
                 size: self.size
                 pos: self.pos
             Color:
-                rgba: 0, 75/255, 90/255, 1
+                rgba: btn_color
             Line:
                 width: 1
                 rectangle: self.x, self.y, self.width, self.height
@@ -156,7 +156,7 @@
     height: "55dp"
     theme_text_color: "Custom"
     text_color: 0, 120/255, 180/255, 1
-    line_color: 0, 75/255, 90/255, 1
+    line_color: btn_color
 
 <Content>
     content_mdtext_field: content_mdtext_field

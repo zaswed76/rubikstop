@@ -17,10 +17,6 @@ class Sound:
 
         self.current_pos = 0
 
-    @property
-    def source(self):
-        if self.sound:
-            return self.sound.source
 
     def load(self, source):
         self.sound = SoundLoader.load(source)

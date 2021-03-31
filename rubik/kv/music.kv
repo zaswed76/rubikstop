@@ -24,7 +24,7 @@
     padding_x: 20
     canvas.before:
         Color:
-            rgba: (0, 75/255, 90/255, 1) if self.selected else (0, 25/255, 33/255, 1)
+            rgba: btn_color if self.selected else (0, 25/255, 33/255, 1)
         Rectangle:
             pos: self.pos
             size: self.size
@@ -66,7 +66,7 @@
         MDIconButton:
             pos_hint: {"x": 0.04, "top": 0.98}
             theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
+            text_color: btn_color
             icon: "arrow-left-bold"
             on_press: app.screen_manager.current = "settings_screen"
 
@@ -122,7 +122,7 @@
                     id: play_pause_btn
                     pos_hint: {"center_x": 0.1, "center_y": 0.5}
                     icon: "play"
-                    text_color: 0, 75/255, 90/255, 1
+                    text_color: btn_color
                     on_parent:
                         self.set_change_property_list(prop="icon", checked="pause", unchecked="play")
 
@@ -135,15 +135,15 @@
                     text_color: 0, 40/255, 50/255, 1
                     on_press: app.screen_manager.music_screen.set_value_slider(0)
                     on_parent:
-                        self.set_change_property_list("color", (0, 75/255, 90/255, 1), (0, 40/255, 50/255, 1))
+                        self.set_change_property_list("color", (btn_color), (0, 40/255, 50/255, 1))
 
                 MDIconButtonCheckedVolume:
                     id: volume_high
                     icon: "volume-high"
                     pos_hint: {"x": 0.8, "center_y": 0.5}
-                    text_color: 0, 75/255, 90/255, 1
+                    text_color: btn_color
                     on_parent:
-                        self.set_change_property_list("color", (0, 75/255, 90/255, 1), (0, 40/255, 50/255, 1))
+                        self.set_change_property_list("color", btn_color, (0, 40/255, 50/255, 1))
                     on_press: app.screen_manager.music_screen.set_value_slider(1)
 
 
@@ -152,5 +152,5 @@
                     pos_hint: {"center_x": 0.9, "center_y": 0.5}
                     theme_text_color: "Custom"
                     icon: "folder-music"
-                    text_color: 0, 75/255, 90/255, 1
+                    text_color: btn_color
                     on_press: app.screen_manager.music_screen.choose_folder_music()

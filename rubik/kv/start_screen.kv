@@ -4,6 +4,7 @@
 #:include kv/playlist.kv
 #:import stopTouchApp kivy.base.stopTouchApp
 
+#:set btn_color (0, 75/255, 90/255, 1)
 
 <PlaySoundBtn>:
 #    icon: "resource/icons/play-outline.png"
@@ -113,21 +114,21 @@
             pos_hint: {"x": 0.04, "top": 0.98}
             icon: "dots-vertical"
             theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
+            text_color: btn_color
             on_press: app.screen_manager.current = "settings_screen"
 
 
         PlaySoundBtn:
             id: play_sound_btn
             theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
+            text_color: btn_color
             icon: "play-outline"
             pos_hint: {"right": 0.96, "top": 0.98}
 
 
         MDIconButtonExit:
             theme_text_color: "Custom"
-            text_color: 0, 75/255, 90/255, 1
+            text_color: btn_color
             icon: "location-exit"
             pos_hint: {"right": 0.96, "bottom": 0.02}
 #            on_press: stopTouchApp()
